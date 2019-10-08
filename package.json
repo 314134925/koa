@@ -1,0 +1,27 @@
+{
+  "name": "koa",
+  "version": "1.0.0",
+  "description": "movie trailer",
+  "main": "server/index.js",
+  "scripts": {
+    "dev": "node server/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/314134925/koa.git"
+  },
+  "keywords": [
+    "movie",
+    "trailer"
+  ],
+  "author": "jiangQun",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/314134925/koa/issues"
+  },
+  "homepage": "https://github.com/314134925/koa#readme",
+  "dependencies": {
+    "koa": "^2.8.2"
+  }
+}
