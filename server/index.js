@@ -1,6 +1,10 @@
+const  { connect } =require('./database/init')
+
 const Koa = require('koa')
 const app = new Koa()
-app.use(async(ctx,next)=>{
-    ctx.body = '电影首页66666'
-})
-app.listen(4455)
+const views = require('koa-views')
+const {resolve} = require('path')
+;(async ()=>{
+    await connect()
+})()
+app.listen(44567)
