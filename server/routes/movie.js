@@ -11,10 +11,12 @@ const {
     getMovieDetail,
     getRelativeMovies
 } =require('../service/movie')
+console.log(878878)
 @controller('/api/v0/movies')
 export class movieController {
     @get('/')
     async getMovies(ctx, next){
+        console.log('fangwen')
         const {type,year} = ctx.query
         const movies = await getAllMovies(type,year)
         ctx.body = {

@@ -1,7 +1,9 @@
 const Router = require('koa-router')
 const {resolve} = require('path')
+
 const symbolPrefix = Symbol('prefix')
 const routerMap = new Map()
+
 const _ = require('lodash')
 const glob = require('glob')
 const isArray = c => _.isArray(c)?c:[c]
@@ -10,32 +12,34 @@ export class Route{
         this.app = app
         this.apiPath = apiPath
         this.router = new Router()
+        
     }
 
     init(){
-        glob.sync(resolve(this.apiPath,'**/*.js')).forEach(require)
+        glob.sync(resolve(this.apiPath,'./**/*.js')).forEach(require)
         for(let [conf,controller] of routerMap){
             const controllers = isArray(controller)
             const prefixPaht = conf.target[symbolPrefix]
             if(prefixPaht){
                 prefixPaht = normalizePath(prefixPaht)
             }
-            const routerPath = prefixPaht +conf.path
+            const routerPath = prefixPaht + conf.path
+            console.log(conf.method)
             this.router[conf.method](routerPath,...controllers)
         }
-        this.apiPath.use(this.router.routes())
-        this.apiPath.use(this.router.allowedMethods())
+        this.app.use(this.router.routes())
+        this.app.use(this.router.allowedMethods())
     }
 }
-const normalizePath = path => path.startsWidth('/')?path:`/${path}`
+const normalizePath = path => path.startsWith('/')?path:`/${path}`
 const router =conf =>(target,key,descriptor)=>{
     conf.path = normalizePath(conf.path)
-    console.log(778888888)
     routerMap.set({
-        'target':target, path:conf.path
+        'target':target,
+        ...conf
     },target[key])
 }
-export const controller = path =>target =>(target.propotype[symbolPrefix = path])
+export const controller = path =>target =>(target.prototype[symbolPrefix]  = path)
 export const get = path => router({
     'method':'get',
     'path':path

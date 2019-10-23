@@ -1,17 +1,16 @@
-const  { connect,initSchems } =require('./database/init')
-const mongoose = require('mongoose')
 const Koa = require('koa')
-const app = new Koa()
+const mongoose = require('mongoose')
 const views = require('koa-views')
 const {resolve} = require('path')
-// const router = require('./routes') 
-const MIDDLEWARES = ['router']
+const  { connect,initSchems } =require('./database/init')
 const R = require('ramda')
+const MIDDLEWARES = ['router']
+// const router = require('./routes') 
 const useMiddlewares = (app)=>{
     R.map(
         R.compose(
             R.forEachObjIndexed(
-                initWidth => initWidth(app)
+                initWith => initWith(app)
             ),
             require,
             name => resolve(__dirname,`./middlewares/${name}`)
@@ -25,6 +24,7 @@ const useMiddlewares = (app)=>{
     const movies = await Movie.find({})
     // require('./tasks/movie')
     // require('./tasks/api')
+    const app = new Koa()
     await useMiddlewares(app)
     app.listen(44567)
 })()
